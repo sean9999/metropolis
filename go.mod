@@ -1,4 +1,4 @@
-module github.com/sean9999/rewinder
+module github.com/sean9999/mothership
 
 go 1.22.2
 

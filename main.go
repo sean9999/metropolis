@@ -10,8 +10,8 @@ import (
 	"time"
 
 	"github.com/rs/cors"
-	"github.com/sean9999/rewinder/event"
-	"github.com/sean9999/rewinder/web"
+	"github.com/sean9999/mothership/event"
+	"github.com/sean9999/mothership/web"
 )
 
 func main() {
