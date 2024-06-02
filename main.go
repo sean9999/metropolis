@@ -10,13 +10,17 @@ import (
 	"time"
 
 	"github.com/rs/cors"
-	"github.com/sean9999/mothership/event"
-	"github.com/sean9999/mothership/web"
+	"github.com/sean9999/metropolis/event"
+	"github.com/sean9999/metropolis/web"
 )
 
 func main() {
 	//	Event Bus
-	m := event.NewMemoryStore()
+
+	met, err := NewMetropolis()
+	if err != nil {
+		panic(err)
+	}
 
 	//	listen for signals
 	sigs := make(chan os.Signal, 1)
@@ -29,14 +33,14 @@ func main() {
 			switch sig {
 			case syscall.SIGUSR1:
 				//	pause. so don't emit
-				m.Lock()
-				m.SSEEmit = false
-				m.Unlock()
+				met.Bus.Lock()
+				met.Bus.SSEEmit = false
+				met.Bus.Unlock()
 			case syscall.SIGUSR2:
 				//	continue. do emit
-				m.Lock()
-				m.SSEEmit = true
-				m.Unlock()
+				met.Bus.Lock()
+				met.Bus.SSEEmit = true
+				met.Bus.Unlock()
 			}
 		}
 	}()
@@ -45,17 +49,27 @@ func main() {
 	go func() {
 		for n := 0; n < 8; n++ {
 			time.Sleep(time.Millisecond * 250)
-			e := m.NewEvent(event.Payload{})
+			e := met.Bus.NewEvent(event.Payload{})
 			e.Data["msg"] = fmt.Sprintf("I am event Id %d", e.Id)
-			m.Enqueue(e)
+			met.Bus.Enqueue(e)
 		}
 	}()
 
-	// c := cors.New(cors.Options{
-	// 	AllowedOrigins: []string{"https://rewinder.lcl.host:44324"},
-	// })
-
 	mux := http.NewServeMux()
+
+	mux.Handle("/graph/*", GraphHandler{met})
+	mux.Handle("/events", EventHandler{met})
+
+	//	static
+	mux.Handle("GET /index.html", web.StaticServer{})
+	mux.Handle("GET /js.js", web.StaticServer{})
+	mux.Handle("GET /css.css", web.StaticServer{})
+
+	os.WriteFile("rewinder.pid", []byte(fmt.Sprintf("%d", os.Getpid())), 0640)
+
+	fmt.Printf("pid: %d\n", os.Getpid())
+
+	ln, _ := tls.Listen("tcp", ":"+os.Getenv("HTTPS_PORT"), Anchor())
 
 	c := cors.New(cors.Options{
 		AllowedOrigins:   []string{"https://rewinder.lcl.host:44324"},
@@ -67,24 +81,6 @@ func main() {
 
 	// Insert the middleware
 	corehan := c.Handler(mux)
-
-	//corehan := cors.Default().Handler(mux)
-
-	mux.Handle("POST /events", m.Ingester) // POST	is for JSON
-	mux.Handle("GET /events", m.Emitter)   // GET	is for SSE
-	mux.Handle("PUT /events", m.Ingester)  // PUT	is for PEM
-
-	//	static
-	mux.Handle("GET /", web.StaticServer{})
-	mux.Handle("GET /index.html", web.StaticServer{})
-	mux.Handle("GET /js.js", web.StaticServer{})
-	mux.Handle("GET /css.css", web.StaticServer{})
-
-	os.WriteFile("rewinder.pid", []byte(fmt.Sprintf("%d", os.Getpid())), 0640)
-
-	fmt.Printf("pid: %d\n", os.Getpid())
-
-	ln, _ := tls.Listen("tcp", ":"+os.Getenv("HTTPS_PORT"), Anchor())
 
 	// Start the https server
 	http.Serve(ln, corehan)

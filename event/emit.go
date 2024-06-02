@@ -6,7 +6,7 @@ import (
 )
 
 type Emitter struct {
-	Store *MemoryStore
+	Store *Bus
 }
 
 func (s Emitter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -42,5 +42,4 @@ func (s Emitter) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			m.RUnlock()
 		}
 	}
-
 }

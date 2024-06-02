@@ -9,12 +9,12 @@ import (
 )
 
 type Ingester struct {
-	Store *MemoryStore
+	Bus *Bus
 }
 
 // processJSON takes in JSON payload and outputs text encoded Event
 func (s Ingester) processJSON(w http.ResponseWriter, r *http.Request) {
-	m := s.Store
+	m := s.Bus
 	rawBytes, err := io.ReadAll(r.Body)
 	if err != nil {
 		w.WriteHeader(401)
@@ -37,7 +37,7 @@ func (s Ingester) processJSON(w http.ResponseWriter, r *http.Request) {
 
 // processPEM takes in PEM-encoded text and outputs an Event
 func (s Ingester) processPEM(w http.ResponseWriter, r *http.Request) {
-	m := s.Store
+	m := s.Bus
 	rawBytes, err := io.ReadAll(r.Body)
 	if err != nil {
 		w.WriteHeader(401)

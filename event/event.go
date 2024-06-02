@@ -7,6 +7,9 @@ import (
 	"fmt"
 )
 
+var errOutofBounds = errors.New("index out of bounds for slice")
+var NoEvent = Event{}
+
 type Payload map[string]any
 
 func (p Payload) String() string {
@@ -26,6 +29,8 @@ func (p Payload) Serialize() (string, error) {
 	return b64output, nil
 }
 
+// an Event is a [Payload] with a unique id.
+// for extra safety, you can check Event.Is to ensure it's been properly initiazed
 type Event struct {
 	Data Payload `json:"data"`
 	Id   uint64  `json:"id"`
@@ -37,6 +42,3 @@ func (e Event) Serialize() string {
 	b, _ := e.Data.Serialize()
 	return fmt.Sprintf("data: %s\nid: %d\n\n", b, e.Id)
 }
-
-var errOutofBounds = errors.New("index out of bounds for slice")
-var NoEvent = Event{}
