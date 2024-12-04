@@ -1,6 +1,8 @@
-peer = []
-
 [self]
   priv = "19dfff29abe8c52de01dce486220fff849b576790e058b2b92c2ca59fbabd8bf"
   pub = "f4e66a5d24c45abfb798884477e81162a40bb4b5d78ef641431c9505875a96e5e8ad33cbf082f68c9edd9a57d9553a222d9beee00f092b83fce76abd68142671"
   nick = "damp-pond"
+
+[[peer]]
+  nick = "damp-pond"
+  pub = "f4e66a5d24c45abfb798884477e81162a40bb4b5d78ef641431c9505875a96e5e8ad33cbf082f68c9edd9a57d9553a222d9beee00f092b83fce76abd68142671"

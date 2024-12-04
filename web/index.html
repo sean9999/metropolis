@@ -5,10 +5,352 @@
     <title>SSE Example</title>
     <link rel="stylesheet" href="css.css" type="text/css" />
     <script src="js.js" defer async></script>
+    <script src="mod.js" type="module"></script>
 </head>
 <body>
     <h1>SSE</h1>
+    <div id="container"></div>
+    <div id="d3"></div>
     <button id="reset" type="reset">reset</button>
     <ol id="sse"></ol>
+
+    <table id="tags" hidden>
+		<caption>Tags</caption>
+		<thead>
+			<tr>
+				<th>URL</th>
+				<th>Term</th>
+				<th>Count</th>
+			</tr>
+		</thead>
+		<tbody>
+		
+		<tr>
+			<td>/tags/alert/</td>
+			<td>alert</td>
+			<td>1</td>
+		</tr>
+		
+		<tr>
+			<td>/tags/bash/</td>
+			<td>bash</td>
+			<td>1</td>
+		</tr>
+		
+		<tr>
+			<td>/tags/cli/</td>
+			<td>cli</td>
+			<td>2</td>
+		</tr>
+		
+		<tr>
+			<td>/tags/css-transforms/</td>
+			<td>css transforms</td>
+			<td>1</td>
+		</tr>
+		
+		<tr>
+			<td>/tags/data/</td>
+			<td>data</td>
+			<td>1</td>
+		</tr>
+		
+		<tr>
+			<td>/tags/dev/</td>
+			<td>dev</td>
+			<td>7</td>
+		</tr>
+		
+		<tr>
+			<td>/tags/dotfiles/</td>
+			<td>dotfiles</td>
+			<td>1</td>
+		</tr>
+		
+		<tr>
+			<td>/tags/front-end/</td>
+			<td>front-end</td>
+			<td>1</td>
+		</tr>
+		
+		<tr>
+			<td>/tags/functional/</td>
+			<td>functional</td>
+			<td>1</td>
+		</tr>
+		
+		<tr>
+			<td>/tags/gnome/</td>
+			<td>gnome</td>
+			<td>1</td>
+		</tr>
+		
+		<tr>
+			<td>/tags/go/</td>
+			<td>go</td>
+			<td>4</td>
+		</tr>
+		
+		<tr>
+			<td>/tags/information-architecture/</td>
+			<td>information architecture</td>
+			<td>1</td>
+		</tr>
+		
+		<tr>
+			<td>/tags/javascript/</td>
+			<td>javascript</td>
+			<td>1</td>
+		</tr>
+		
+		<tr>
+			<td>/tags/live-reload/</td>
+			<td>live-reload</td>
+			<td>2</td>
+		</tr>
+		
+		<tr>
+			<td>/tags/ops/</td>
+			<td>ops</td>
+			<td>1</td>
+		</tr>
+		
+		<tr>
+			<td>/tags/primes/</td>
+			<td>primes</td>
+			<td>1</td>
+		</tr>
+		
+		<tr>
+			<td>/tags/programming/</td>
+			<td>programming</td>
+			<td>1</td>
+		</tr>
+		
+		<tr>
+			<td>/tags/proxy/</td>
+			<td>proxy</td>
+			<td>1</td>
+		</tr>
+		
+		<tr>
+			<td>/tags/rust/</td>
+			<td>rust</td>
+			<td>1</td>
+		</tr>
+		
+		<tr>
+			<td>/tags/seo/</td>
+			<td>seo</td>
+			<td>1</td>
+		</tr>
+		
+		<tr>
+			<td>/tags/shell/</td>
+			<td>shell</td>
+			<td>1</td>
+		</tr>
+		
+		<tr>
+			<td>/tags/socks5/</td>
+			<td>socks5</td>
+			<td>1</td>
+		</tr>
+		
+		<tr>
+			<td>/tags/ssh/</td>
+			<td>ssh</td>
+			<td>1</td>
+		</tr>
+		
+		<tr>
+			<td>/tags/structured/</td>
+			<td>structured</td>
+			<td>1</td>
+		</tr>
+		
+		<tr>
+			<td>/tags/systemd/</td>
+			<td>systemd</td>
+			<td>1</td>
+		</tr>
+		
+		<tr>
+			<td>/tags/tech/</td>
+			<td>tech</td>
+			<td>9</td>
+		</tr>
+		
+		<tr>
+			<td>/tags/tunnel/</td>
+			<td>tunnel</td>
+			<td>1</td>
+		</tr>
+		
+		<tr>
+			<td>/tags/typescript/</td>
+			<td>typescript</td>
+			<td>1</td>
+		</tr>
+		
+		<tr>
+			<td>/tags/ui/</td>
+			<td>ui</td>
+			<td>1</td>
+		</tr>
+		
+		<tr>
+			<td>/tags/ux/</td>
+			<td>ux</td>
+			<td>1</td>
+		</tr>
+		
+		<tr>
+			<td>/tags/web/</td>
+			<td>web</td>
+			<td>3</td>
+		</tr>
+		
+		</tbody>
+	</table>
+
+	<table id="pages" hidden>
+		<caption>Pages</caption>
+		<thead>
+			<tr>
+				<th>URL</th>
+				<th>Title</th>
+				<th>Section</th>
+				<th>tags</th>
+			</tr>
+		</thead>
+		<tbody>
+		
+			<tr>
+				<td>/posts/flargs/</td>
+				<td>Flargs</td>
+				<td>post</td>
+				<td><ul><li>go</li>
+					<li>dev</li>
+					<li>tech</li>
+					</ul></td>
+			</tr>
+		
+			<tr>
+				<td>/posts/fasthak/</td>
+				<td>Fasthak</td>
+				<td>post</td>
+				<td><ul><li>tech</li>
+					<li>go</li>
+					<li>live-reload</li>
+					<li>web</li>
+					<li>dev</li>
+					</ul></td>
+			</tr>
+		
+			<tr>
+				<td>/posts/go-functional/</td>
+				<td>Go Functional</td>
+				<td>post</td>
+				<td><ul><li>tech</li>
+					<li>go</li>
+					<li>functional</li>
+					<li>programming</li>
+					</ul></td>
+			</tr>
+		
+			<tr>
+				<td>/posts/rebouncer/</td>
+				<td>Rebouncer</td>
+				<td>post</td>
+				<td><ul><li>tech</li>
+					<li>go</li>
+					<li>dev</li>
+					<li>live-reload</li>
+					<li>cli</li>
+					</ul></td>
+			</tr>
+		
+			<tr>
+				<td>/posts/primes/</td>
+				<td>Primes</td>
+				<td>post</td>
+				<td><ul><li>tech</li>
+					<li>dev</li>
+					<li>rust</li>
+					<li>primes</li>
+					<li>cli</li>
+					</ul></td>
+			</tr>
+		
+			<tr>
+				<td>/posts/labtunnel/</td>
+				<td>Labtunnel</td>
+				<td>post</td>
+				<td><ul><li>tech</li>
+					<li>tunnel</li>
+					<li>socks5</li>
+					<li>proxy</li>
+					<li>ssh</li>
+					<li>systemd</li>
+					<li>gnome</li>
+					</ul></td>
+			</tr>
+		
+			<tr>
+				<td>/projects/dotfiles/</td>
+				<td>Dotfiles</td>
+				<td>project</td>
+				<td><ul><li>tech</li>
+					<li>dev</li>
+					<li>ops</li>
+					<li>bash</li>
+					<li>shell</li>
+					<li>dotfiles</li>
+					</ul></td>
+			</tr>
+		
+			<tr>
+				<td>/projects/falert/</td>
+				<td>Falert</td>
+				<td>project</td>
+				<td><ul><li>tech</li>
+					<li>dev</li>
+					<li>web</li>
+					<li>javascript</li>
+					<li>typescript</li>
+					<li>front-end</li>
+					<li>css transforms</li>
+					<li>alert</li>
+					<li>ui</li>
+					<li>ux</li>
+					</ul></td>
+			</tr>
+		
+			<tr>
+				<td>/posts/robot-first/</td>
+				<td>Robot-first Development</td>
+				<td>post</td>
+				<td><ul><li>tech</li>
+					<li>web</li>
+					<li>dev</li>
+					<li>seo</li>
+					<li>structured</li>
+					<li>data</li>
+					<li>information architecture</li>
+					</ul></td>
+			</tr>
+		
+			<tr>
+				<td>/about/</td>
+				<td>About Me</td>
+				<td></td>
+				<td></td>
+			</tr>
+		
+		</tbody>
+	</table>
+
+
 </body>
 </html>

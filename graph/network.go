@@ -12,7 +12,7 @@ type SocialNetwork struct {
 }
 
 func NewSocialNetwork() (*SocialNetwork, error) {
-	me, err := oracle.FromFile("graph/mothership.toml")
+	me, err := oracle.FromFile("mothership.toml")
 	if err != nil {
 		return nil, err
 	}
